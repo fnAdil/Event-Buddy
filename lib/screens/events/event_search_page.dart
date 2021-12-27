@@ -31,7 +31,10 @@ class _EventSearchState extends State<EventSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Etkinlikler"),
+        centerTitle: true,
+      ),
       body: Stack(children: <Widget>[
         const Background(),
         Padding(

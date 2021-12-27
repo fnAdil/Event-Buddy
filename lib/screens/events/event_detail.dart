@@ -42,7 +42,10 @@ class _EventDetailState extends State<EventDetail> {
         false; //katılımcılar listelenirken kullanıcının kendisinin listelenmesini engellemek için
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget.concert.name),
+        centerTitle: true,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -89,96 +92,7 @@ class _EventDetailState extends State<EventDetail> {
                                       child: Text("İstek Gönder"),
                                       onPressed: () async {
                                         LoadingDialog();
-                                        await _instance
-                                            .collection("users")
-                                            .doc(doc.get("id"))
-                                            .collection("istekler")
-                                            .get()
-                                            .then((value) => {
-                                                  value.docs.forEach((element) {
-                                                    //eğer kişiye istek göndermişsek hata verir
-                                                    if (element.get(
-                                                                "konser_id") ==
-                                                            widget.concert.id &&
-                                                        element.get(
-                                                                "sender_id") ==
-                                                            Static.user.id) {
-                                                      isError = true;
-                                                      Navigator.pop(context);
-                                                      ErrorDialog(
-                                                          "Bu kişiye daha önce istek gönderdiniz!");
-                                                      //eğer kişi bize göndermişse hata verir
-                                                    } else {
-                                                      isError = false;
-                                                    }
-                                                  })
-                                                })
-                                            .whenComplete(() async => {
-                                                  await _instance
-                                                      .collection("users")
-                                                      .doc(Static.user.id)
-                                                      .collection("istekler")
-                                                      .get()
-                                                      .then((value) => {
-                                                            value.docs.forEach(
-                                                                (element) {
-                                                              //eğer kişiye istek göndermişsek hata verir
-                                                              if (element.get(
-                                                                          "konser_id") ==
-                                                                      widget
-                                                                          .concert
-                                                                          .id &&
-                                                                  element.get(
-                                                                          "sender_id") ==
-                                                                      doc.get(
-                                                                          "id")) {
-                                                                isError = true;
-                                                                Navigator.pop(
-                                                                    context);
-                                                                ErrorDialog(
-                                                                    "Bu kişi daha önce size istek göndermiş!");
-                                                                //eğer kişi bize göndermişse hata verir
-                                                              } else {
-                                                                isError = false;
-                                                              }
-                                                            })
-                                                          })
-                                                })
-                                            .whenComplete(() async => {
-                                                  if (!isError)
-                                                    {
-                                                      await _instance
-                                                          .collection("users")
-                                                          .doc(doc.get("id"))
-                                                          .collection(
-                                                              "istekler")
-                                                          .add({
-                                                        "konser_ad":
-                                                            widget.concert.name,
-                                                        "konser_id":
-                                                            widget.concert.id,
-                                                        "name": (Static
-                                                                .user.name
-                                                                .toString() +
-                                                            " " +
-                                                            Static.user.lastname
-                                                                .toString()),
-                                                        "sender_id":
-                                                            Static.user.id,
-                                                        "tarih": formattedDate
-                                                            .replaceAll(
-                                                                "-", "."),
-                                                        "şehir":
-                                                            widget.concert.city,
-                                                      }).whenComplete(() => {
-                                                                print(
-                                                                    formattedDate),
-                                                                Navigator.pop(
-                                                                    context),
-                                                              })
-                                                    }
-                                                });
-
+                                        istek(doc, isError, formattedDate);
                                         setState(() {});
                                       },
                                     ),
@@ -195,6 +109,73 @@ class _EventDetailState extends State<EventDetail> {
         ],
       ),
     );
+  }
+
+  Future istek(QueryDocumentSnapshot<Object?> doc, bool isError,
+      String formattedDate) async {
+    await _instance
+        .collection("users")
+        .doc(doc.get("id"))
+        .collection("istekler")
+        .get()
+        .then((value) => {
+              value.docs.forEach((element) {
+                //eğer kişiye istek göndermişsek hata verir
+                if (element.get("konser_id") == widget.concert.id &&
+                    element.get("sender_id") == Static.user.id) {
+                  isError = true;
+                  Navigator.pop(context);
+                  ErrorDialog("Bu kişiye daha önce istek gönderdiniz!");
+                  //eğer kişi bize göndermişse hata verir
+                } else {
+                  isError = false;
+                }
+              })
+            })
+        .whenComplete(() async => {
+              await _instance
+                  .collection("users")
+                  .doc(Static.user.id)
+                  .collection("istekler")
+                  .get()
+                  .then((value) => {
+                        value.docs.forEach((element) {
+                          //eğer kişiye istek göndermişsek hata verir
+                          if (element.get("konser_id") == widget.concert.id &&
+                              element.get("sender_id") == doc.get("id")) {
+                            isError = true;
+                            Navigator.pop(context);
+                            ErrorDialog(
+                                "Bu kişi daha önce size istek göndermiş!");
+                            //eğer kişi bize göndermişse hata verir
+                          } else {
+                            isError = false;
+                          }
+                        })
+                      })
+            })
+        .whenComplete(() async => {
+              if (!isError)
+                {
+                  await _instance
+                      .collection("users")
+                      .doc(doc.get("id"))
+                      .collection("istekler")
+                      .add({
+                    "konser_ad": widget.concert.name,
+                    "konser_id": widget.concert.id,
+                    "name": (Static.user.name.toString() +
+                        " " +
+                        Static.user.lastname.toString()),
+                    "sender_id": Static.user.id,
+                    "tarih": formattedDate.replaceAll("-", "."),
+                    "şehir": widget.concert.city,
+                  }).whenComplete(() => {
+                            print(formattedDate),
+                            Navigator.pop(context),
+                          })
+                }
+            });
   }
 
   Future<String?> LoadingDialog() {

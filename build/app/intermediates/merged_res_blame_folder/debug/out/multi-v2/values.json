@@ -1,44 +1,8 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/adilozdemir/Flutter Projects/firebasedemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/adilozdemir/firebasedemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
-                {
-                    "source": "/Users/adilozdemir/Flutter Projects/firebasedemo/build/app/generated/res/google-services/debug/values/values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "55,199,281,385,494,614,714",
-                        "endColumns": "143,81,103,108,119,99,76",
-                        "endOffsets": "194,276,380,489,609,709,786"
-                    },
-                    "to": {
-                        "startLines": "117,118,119,120,121,122,123",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "8570,8714,8796,8900,9009,9129,9229",
-                        "endColumns": "143,81,103,108,119,99,76",
-                        "endOffsets": "8709,8791,8895,9004,9124,9224,9301"
-                    }
-                },
-                {
-                    "source": "/Users/adilozdemir/Flutter Projects/firebasedemo/android/app/src/main/res/values/styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "173,807",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "465,971"
-                    },
-                    "to": {
-                        "startLines": "125,130",
-                        "startColumns": "4,4",
-                        "startOffsets": "9377,9674",
-                        "endLines": "129,132",
-                        "endColumns": "12,12",
-                        "endOffsets": "9669,9838"
-                    }
-                },
                 {
                     "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/023bdcc7ba160616cd37ccdb799eb0ee/jetified-play-services-base-17.1.0/res/values/values.xml",
                     "from": {
@@ -97,6 +61,23 @@
                     }
                 },
                 {
+                    "source": "/Users/adilozdemir/firebasedemo/build/app/generated/res/google-services/debug/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,281,385,494,614,714",
+                        "endColumns": "143,81,103,108,119,99,76",
+                        "endOffsets": "194,276,380,489,609,709,786"
+                    },
+                    "to": {
+                        "startLines": "117,118,119,120,121,122,123",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "8570,8714,8796,8900,9009,9129,9229",
+                        "endColumns": "143,81,103,108,119,99,76",
+                        "endOffsets": "8709,8791,8895,9004,9124,9224,9301"
+                    }
+                },
+                {
                     "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/7834121e970a9fca3659c06d33f5e5da/browser-1.0.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
@@ -128,6 +109,25 @@
                         "startOffsets": "6099,7277",
                         "endColumns": "67,166",
                         "endOffsets": "6162,7439"
+                    }
+                },
+                {
+                    "source": "/Users/adilozdemir/firebasedemo/android/app/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "173,807",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "465,971"
+                    },
+                    "to": {
+                        "startLines": "125,130",
+                        "startColumns": "4,4",
+                        "startOffsets": "9377,9674",
+                        "endLines": "129,132",
+                        "endColumns": "12,12",
+                        "endOffsets": "9669,9838"
                     }
                 }
             ]

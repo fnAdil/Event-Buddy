@@ -12,8 +12,8 @@
 12         to allow setting breakpoints, to provide hot reload, etc.
 13    -->
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->/Users/adilozdemir/Flutter Projects/firebasedemo/android/app/src/debug/AndroidManifest.xml:6:5-66
-14-->/Users/adilozdemir/Flutter Projects/firebasedemo/android/app/src/debug/AndroidManifest.xml:6:22-64
+14-->/Users/adilozdemir/firebasedemo/android/app/src/debug/AndroidManifest.xml:6:5-66
+14-->/Users/adilozdemir/firebasedemo/android/app/src/debug/AndroidManifest.xml:6:22-64
 15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 15-->[com.google.firebase:firebase-auth:21.0.1] /Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/6a9b540f13889258a0cd452a540cd610/jetified-firebase-auth-21.0.1/AndroidManifest.xml:24:5-79
 15-->[com.google.firebase:firebase-auth:21.0.1] /Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/6a9b540f13889258a0cd452a540cd610/jetified-firebase-auth-21.0.1/AndroidManifest.xml:24:22-76
@@ -59,31 +59,31 @@
 54            android:value="2" />
 55
 56        <service
-56-->[:firebase_auth] /Users/adilozdemir/Flutter Projects/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+56-->[:firebase_auth] /Users/adilozdemir/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
 57            android:name="com.google.firebase.components.ComponentDiscoveryService"
-57-->[:firebase_auth] /Users/adilozdemir/Flutter Projects/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:18-89
+57-->[:firebase_auth] /Users/adilozdemir/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:18-89
 58            android:directBootAware="true"
 58-->[com.google.firebase:firebase-common:20.0.0] /Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/e90b6bdc40929ac01e172d4b5a24e743/jetified-firebase-common-20.0.0/AndroidManifest.xml:35:13-43
 59            android:exported="false" >
 59-->[com.google.firebase:firebase-auth:21.0.1] /Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/6a9b540f13889258a0cd452a540cd610/jetified-firebase-auth-21.0.1/AndroidManifest.xml:76:13-37
 60            <meta-data
-60-->[:firebase_auth] /Users/adilozdemir/Flutter Projects/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+60-->[:firebase_auth] /Users/adilozdemir/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
 61                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-61-->[:firebase_auth] /Users/adilozdemir/Flutter Projects/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+61-->[:firebase_auth] /Users/adilozdemir/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
 62                android:value="com.google.firebase.components.ComponentRegistrar" />
-62-->[:firebase_auth] /Users/adilozdemir/Flutter Projects/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+62-->[:firebase_auth] /Users/adilozdemir/firebasedemo/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 63            <meta-data
-63-->[:cloud_firestore] /Users/adilozdemir/Flutter Projects/firebasedemo/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+63-->[:cloud_firestore] /Users/adilozdemir/firebasedemo/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
 64                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-64-->[:cloud_firestore] /Users/adilozdemir/Flutter Projects/firebasedemo/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-134
+64-->[:cloud_firestore] /Users/adilozdemir/firebasedemo/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-134
 65                android:value="com.google.firebase.components.ComponentRegistrar" />
-65-->[:cloud_firestore] /Users/adilozdemir/Flutter Projects/firebasedemo/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+65-->[:cloud_firestore] /Users/adilozdemir/firebasedemo/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 66            <meta-data
-66-->[:firebase_core] /Users/adilozdemir/Flutter Projects/firebasedemo/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+66-->[:firebase_core] /Users/adilozdemir/firebasedemo/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
 67                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-67-->[:firebase_core] /Users/adilozdemir/Flutter Projects/firebasedemo/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+67-->[:firebase_core] /Users/adilozdemir/firebasedemo/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
 68                android:value="com.google.firebase.components.ComponentRegistrar" />
-68-->[:firebase_core] /Users/adilozdemir/Flutter Projects/firebasedemo/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+68-->[:firebase_core] /Users/adilozdemir/firebasedemo/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 69            <meta-data
 69-->[com.google.firebase:firebase-auth:21.0.1] /Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/6a9b540f13889258a0cd452a540cd610/jetified-firebase-auth-21.0.1/AndroidManifest.xml:77:13-79:85
 70                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"

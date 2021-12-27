@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/adilozdemir/Flutter Projects/firebasedemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-el/values-el.xml",
+            "outputFile": "/Users/adilozdemir/firebasedemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-el/values-el.xml",
             "map": [
                 {
                     "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/023bdcc7ba160616cd37ccdb799eb0ee/jetified-play-services-base-17.1.0/res/values-el/values.xml",
