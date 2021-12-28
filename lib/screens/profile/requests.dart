@@ -83,13 +83,13 @@ class _RequestsPageState extends State<Requests> {
                                         ),
                                         onPressed: () async {
                                           LoadingDialog();
-                                          // await _instance
-                                          //     .collection(
-                                          //         "users/${userId}/istekler")
-                                          //     .doc()
-                                          //     .delete()
-                                          //     .whenComplete(
-                                          //         () => {Navigator.pop(context)});
+                                          await _instance
+                                              .collection(
+                                                  "users/${Static.user.id}/istekler")
+                                              .doc(doc.id)
+                                              .delete()
+                                              .whenComplete(() =>
+                                                  {Navigator.pop(context)});
 
                                           setState(() {});
                                         }),
@@ -99,7 +99,8 @@ class _RequestsPageState extends State<Requests> {
                                                 TextStyle(color: Colors.green)),
                                         onPressed: () async {
                                           LoadingDialog();
-                                          istekKabul(doc, isError, senderId);
+                                          istekKabul(doc, isError, senderId,
+                                              Static.user.id.toString());
                                         })
                                   ],
                                 ),
@@ -161,11 +162,13 @@ class _RequestsPageState extends State<Requests> {
     QueryDocumentSnapshot<Object?> doc,
     bool isError,
     String senderId,
+    String userId,
   ) async {
     List<dynamic> s;
+    //düzelt
     await _instance
         .collection('mesajlar')
-        .where("üyeler", arrayContains: Static.user.id)
+        .where("üyeler", arrayContains: userId)
         .get()
         .then((value) => {
               value.docs.forEach((element) => {
@@ -208,24 +211,20 @@ class _RequestsPageState extends State<Requests> {
                                 .add({"mesaj": ""})
                           })
                       .whenComplete(() async => {
-                            //  await _instance
-                            //       .collection(
-                            //           "users/${userId}/istekler")
-                            //       .doc().delete(),
+                            await _instance
+                                .collection("users/${userId}/istekler")
+                                .doc(doc.id)
+                                .delete(),
                             Navigator.pop(context)
                           })
                 }
               else
                 {
-                  // await _instance
-                  //     .collection(
-                  //         "users/${userId}/istekler")
-                  //     .doc()
-                  //     .delete()
-                  //     .whenComplete(() => {
-                  //           Navigator.pop(
-                  //               context)
-                  //         })
+                  await _instance
+                      .collection("users/${userId}/istekler")
+                      .doc(doc.id)
+                      .delete()
+                      .whenComplete(() => {Navigator.pop(context)})
                 }
             });
     setState(() {});

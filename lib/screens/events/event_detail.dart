@@ -40,7 +40,10 @@ class _EventDetailState extends State<EventDetail> {
     String formattedDate = DateFormat('dd-MM-yyy').format(selectedDate);
     bool isSelf =
         false; //katılımcılar listelenirken kullanıcının kendisinin listelenmesini engellemek için
-
+    bool isMatch =
+        false; //katılımcılar listelenirken kullanıcının zaten eşleştiği kişilerin listelenmesini engellemek için
+    bool isRequest =
+        false; //katılımcılar listelenirken kullanıcının istek listesindeki kişilerin listelenmesini engellemek için
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.concert.name),
@@ -69,12 +72,15 @@ class _EventDetailState extends State<EventDetail> {
                 return ListView(
                   children: snapshot.data!.docs.map((doc) {
                     print(doc.get("id") + "----.");
+                    //eğer katılımcılar arasındakişinin kendisi varsa listelenmez
+
                     if (doc.get("id") == Static.user.id) {
-                      isSelf = false;
-                    } else {
                       isSelf = true;
+                    } else {
+                      isSelf = false;
                     }
-                    return isSelf
+
+                    return !(isSelf)
                         ? Container(
                             decoration: BoxDecoration(color: Colors.white),
                             child: Column(
@@ -126,10 +132,7 @@ class _EventDetailState extends State<EventDetail> {
                   isError = true;
                   Navigator.pop(context);
                   ErrorDialog("Bu kişiye daha önce istek gönderdiniz!");
-                  //eğer kişi bize göndermişse hata verir
-                } else {
-                  isError = false;
-                }
+                } else {}
               })
             })
         .whenComplete(() async => {
@@ -140,18 +143,33 @@ class _EventDetailState extends State<EventDetail> {
                   .get()
                   .then((value) => {
                         value.docs.forEach((element) {
-                          //eğer kişiye istek göndermişsek hata verir
+                          //eğer kişi bize istek göndermişse hata verir
                           if (element.get("konser_id") == widget.concert.id &&
                               element.get("sender_id") == doc.get("id")) {
                             isError = true;
                             Navigator.pop(context);
                             ErrorDialog(
                                 "Bu kişi daha önce size istek göndermiş!");
-                            //eğer kişi bize göndermişse hata verir
-                          } else {
-                            isError = false;
-                          }
+                          } else {}
                         })
+                      })
+            })
+        .whenComplete(() async => {
+              await _instance
+                  .collection("mesajlar")
+                  .where("üyeler", arrayContains: Static.user.id.toString())
+                  .where("konser_id", isEqualTo: widget.concert.id)
+                  .get()
+                  .then((value) => {
+                        if (value.docs.isEmpty)
+                          {print("boş------------------")}
+                        else
+                          {
+                            print("bdolu------------------"),
+                            isError = true,
+                            Navigator.pop(context),
+                            ErrorDialog("Bu kişi ile zaten eşleştiniz!"),
+                          }
                       })
             })
         .whenComplete(() async => {

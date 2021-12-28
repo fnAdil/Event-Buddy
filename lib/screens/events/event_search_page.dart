@@ -8,6 +8,7 @@ import 'package:firebasedemo/screens/events/Events.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'event_detail.dart';
 
@@ -18,18 +19,25 @@ class EventSearch extends StatefulWidget {
     required this.date,
   }) : super(key: key);
   final String city;
-  final List<String> date;
+  final DateTime date;
 
   @override
   _EventSearchState createState() => _EventSearchState();
 }
 
 class _EventSearchState extends State<EventSearch> {
+  @override
+  void initState() {
+    print(widget.date);
+    super.initState();
+  }
+
   final _instance = FirebaseFirestore.instance;
   final _userInstance = FirebaseAuth.instance;
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    final f = new DateFormat('yyyy-MM-dd hh:mm');
     return Scaffold(
       appBar: AppBar(
         title: Text("Etkinlikler"),
@@ -40,7 +48,11 @@ class _EventSearchState extends State<EventSearch> {
         Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20, top: 20),
             child: StreamBuilder<QuerySnapshot>(
-              stream: _instance.collection('konserler').snapshots(),
+              stream: _instance
+                  .collection('konserler')
+                  .where("tarih", isEqualTo: widget.date)
+                  .where("şehir", isEqualTo: widget.city)
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
@@ -59,7 +71,7 @@ class _EventSearchState extends State<EventSearch> {
                           ),
                           trailing: Padding(
                             padding: EdgeInsets.only(right: 10),
-                            child: Text("${doc.get("tarih")} "),
+                            child: Text("date"),
                           ),
                           subtitle: Text("${doc.get("şehir")}"),
                           title: Text("${doc.get("konser_adı")} "),

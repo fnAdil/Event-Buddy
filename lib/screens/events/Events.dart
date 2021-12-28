@@ -40,7 +40,7 @@ class _EventsState extends State<Events> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Cities(),
-                EventSearchButton("Etkinlik Ara"),
+                EventSearchButton("Etkinlik Ara", _selectedDay),
               ],
             ),
           ],
@@ -85,19 +85,19 @@ class _EventsState extends State<Events> {
         });
   }
 
-  GestureDetector EventSearchButton(String title) {
+  GestureDetector EventSearchButton(String title, DateTime selectedDate) {
+    DateTime _date =
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    print(_date);
     return GestureDetector(
       onTap: () {
         setState(() {
-          var selectedDate =
-              _selectedDay.toIso8601String().split(new RegExp(r"[T\.]"));
-          var formatedDate = "${selectedDate[0]} ";
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => EventSearch(
                         city: _selectedCity,
-                        date: selectedDate,
+                        date: _date,
                       )));
         });
       },
