@@ -11,10 +11,10 @@ io/flutter/plugins/firebase/firestore/utils/ExceptionConverter.java
  io.flutter.plugins.firebase.firestore.utils.ExceptionConverter
 io/flutter/plugins/firebase/firestore/FlutterFirebaseFirestoreRegistrar.java
  io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-io/flutter/plugins/firebase/firestore/streamhandler/QuerySnapshotsStreamHandler.java
- io.flutter.plugins.firebase.firestore.streamhandler.QuerySnapshotsStreamHandler
 io/flutter/plugins/firebase/firestore/streamhandler/LoadBundleStreamHandler.java
  io.flutter.plugins.firebase.firestore.streamhandler.LoadBundleStreamHandler
+io/flutter/plugins/firebase/firestore/streamhandler/QuerySnapshotsStreamHandler.java
+ io.flutter.plugins.firebase.firestore.streamhandler.QuerySnapshotsStreamHandler
 io/flutter/plugins/firebase/firestore/streamhandler/SnapshotsInSyncStreamHandler.java
  io.flutter.plugins.firebase.firestore.streamhandler.SnapshotsInSyncStreamHandler
 io/flutter/plugins/firebase/firestore/FlutterFirebaseFirestoreException.java

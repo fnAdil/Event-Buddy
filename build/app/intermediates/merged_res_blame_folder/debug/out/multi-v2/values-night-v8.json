@@ -1,17 +1,17 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/adilozdemir/firebasedemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
+            "outputFile": "C:\\Users\\hp\\Desktop\\JUST DO IT\\kod denemeleri\\firebasedemo\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "/Users/adilozdemir/firebasedemo/android/app/src/main/res/values-night/styles.xml",
+                    "source": "C:\\Users\\hp\\Desktop\\JUST DO IT\\kod denemeleri\\firebasedemo\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
-                        "startOffsets": "172,806",
+                        "startOffsets": "175,820",
                         "endLines": "7,16",
                         "endColumns": "12,12",
-                        "endOffsets": "464,970"
+                        "endOffsets": "471,986"
                     },
                     "to": {
                         "startLines": "2,7",

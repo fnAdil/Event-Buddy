@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebasedemo/components/bacground.dart';
 import 'package:firebasedemo/models/Concert.dart';
 import 'package:firebasedemo/screens/events/Events.dart';
 import 'package:firebasedemo/static.dart';
@@ -49,70 +50,127 @@ class _EventDetailState extends State<EventDetail> {
         title: Text(widget.concert.name),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(widget.concert.id),
-          Text(widget.concert.name),
-          Text(widget.concert.city),
-          Text(widget.concert.date),
-          Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-            stream: _instance
-                .collection('konserler/${widget.concert.id}/katılımcılar')
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else
+      body: Stack(
+        children: <Widget>[
+          Background(),
+          Column(
+            children: [
+              Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          widget.concert.name,
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        Text(widget.concert.city,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20)),
+                        Text(formattedDate,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20)),
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                KonsereKatil();
+                              });
+                            },
+                            child: Text(
+                              "Katıl",
+                              style:
+                                  TextStyle(color: Colors.green, fontSize: 20),
+                            ))
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Colors.deepPurple, Colors.white],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30))),
+                  ),
+                  flex: 1),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: StreamBuilder<QuerySnapshot>(
+                        stream: _instance
+                            .collection(
+                                'konserler/${widget.concert.id}/katılımcılar')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else
 
-                // ignore: curly_braces_in_flow_control_structures
-                return ListView(
-                  children: snapshot.data!.docs.map((doc) {
-                    // doc.get("ref");
-                    print(doc.get("id") + "----.");
-                    //eğer katılımcılar arasındakişinin kendisi varsa listelenmez
+                            // ignore: curly_braces_in_flow_control_structures
+                            return ListView(
+                              children: snapshot.data!.docs.map((doc) {
+                                // doc.get("ref");
+                                print(doc.get("id") + "----.");
+                                //eğer katılımcılar arasındakişinin kendisi varsa listelenmez
 
-                    if (doc.get("id") == Static.user.id) {
-                      isSelf = true;
-                    } else {
-                      isSelf = false;
-                    }
+                                if (doc.get("id") == Static.user.id) {
+                                  isSelf = true;
+                                } else {
+                                  isSelf = false;
+                                }
 
-                    return !(isSelf)
-                        ? Container(
-                            decoration: BoxDecoration(color: Colors.white),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text("${doc.get("name")}"),
-                                  leading: CircleAvatar(
-                                    foregroundImage: AssetImage(
-                                      "assets/images/pp.png",
-                                    ),
-                                  ),
-                                  trailing: Padding(
-                                    padding: EdgeInsets.only(right: 10),
-                                    child: TextButton(
-                                      child: Text("İstek Gönder"),
-                                      onPressed: () async {
-                                        LoadingDialog();
-                                        istek(doc, isError, formattedDate);
-                                        setState(() {});
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : Container();
-                  }).toList(),
-                );
-            },
-          )),
+                                return !(isSelf)
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Column(
+                                          children: [
+                                            ListTile(
+                                              title: Text("${doc.get("name")}"),
+                                              leading: CircleAvatar(
+                                                foregroundImage: AssetImage(
+                                                  "assets/images/pp.png",
+                                                ),
+                                              ),
+                                              trailing: Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 10),
+                                                child: TextButton(
+                                                  child: Text("İstek Gönder"),
+                                                  onPressed: () async {
+                                                    LoadingDialog();
+                                                    istek(doc, isError,
+                                                        formattedDate);
+                                                    setState(() {});
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container();
+                              }).toList(),
+                            );
+                        },
+                      )),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -236,5 +294,43 @@ class _EventDetailState extends State<EventDetail> {
         ],
       ),
     );
+  }
+
+  void KonsereKatil() async {
+    bool isMember = false;
+    LoadingDialog();
+    await _instance
+        .collection("konserler")
+        .doc(widget.concert.id)
+        .collection("katılımcılar")
+        .get()
+        .then((value) => {
+              value.docs.forEach((element) {
+                //eğer kişiye istek göndermişsek hata verir
+                if (element.get("id") == Static.user.id) {
+                  isMember = true;
+                  Navigator.pop(context);
+                  ErrorDialog("Zaten bu konsere katıldınız!");
+                } else {
+                  isMember = false;
+                }
+              })
+            })
+        .whenComplete(() => {
+              if (!isMember)
+                {
+                  _instance
+                      .collection("konserler")
+                      .doc(widget.concert.id)
+                      .collection("katılımcılar")
+                      .add({
+                    "id": Static.user.id,
+                    "name": (Static.user.name.toString() +
+                        " " +
+                        Static.user.lastname.toString())
+                  }),
+                  Navigator.pop(context)
+                }
+            });
   }
 }

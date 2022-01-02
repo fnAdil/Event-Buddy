@@ -37,7 +37,7 @@ class _EventSearchState extends State<EventSearch> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    final f = new DateFormat('yyyy-MM-dd hh:mm');
+    String formattedDate = DateFormat('dd-MM-yyy').format(widget.date);
     return Scaffold(
       appBar: AppBar(
         title: Text("Etkinlikler"),
@@ -55,45 +55,48 @@ class _EventSearchState extends State<EventSearch> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
+                  print("//data yok");
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else
+                } else {
+                  print(snapshot.data!.docs.length);
+                }
 
-                  // ignore: curly_braces_in_flow_control_structures
-                  return ListView(
-                    children: snapshot.data!.docs.map((doc) {
-                      return Card(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: Text(
-                                "${doc.get("konser_adı")[0].toString().toUpperCase()} "),
-                          ),
-                          trailing: Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Text("${widget.date.toString()}"),
-                          ),
-                          subtitle: Text("${doc.get("şehir")}"),
-                          title: Text("${doc.get("konser_adı")} "),
-                          onTap: () {
-                            Concert concert = Concert(
-                                doc.id,
-                                doc.get("konser_adı"),
-                                doc.get("şehir"),
-                                doc.get("tarih").toString());
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EventDetail(
-                                          concert: concert,
-                                        )));
-
-                            setState(() {});
-                          },
+                // ignore: curly_braces_in_flow_control_structures
+                return ListView(
+                  children: snapshot.data!.docs.map((doc) {
+                    return Card(
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          child: Text(
+                              "${doc.get("konser_adı")[0].toString().toUpperCase()} "),
                         ),
-                      );
-                    }).toList(),
-                  );
+                        trailing: Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Text("${formattedDate.toString()}"),
+                        ),
+                        subtitle: Text("${doc.get("şehir")}"),
+                        title: Text("${doc.get("konser_adı")} "),
+                        onTap: () {
+                          Concert concert = Concert(
+                              doc.id,
+                              doc.get("konser_adı"),
+                              doc.get("şehir"),
+                              doc.get("tarih").toString());
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EventDetail(
+                                        concert: concert,
+                                      )));
+
+                          setState(() {});
+                        },
+                      ),
+                    );
+                  }).toList(),
+                );
               },
             )),
       ]),
