@@ -60,11 +60,15 @@ class _RequestsPageState extends State<Requests> {
                         child: Column(
                           children: [
                             ExpansionTile(
-                              leading: CircleAvatar(
-                                foregroundImage: AssetImage(
-                                  "assets/images/pp.png",
-                                ),
-                              ),
+                              leading: doc.get("profilePhoto") == ""
+                                  ? CircleAvatar(
+                                      foregroundImage: AssetImage(
+                                          "assets/images/person.png"),
+                                    )
+                                  : CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(doc.get("profilePhoto")),
+                                    ),
                               trailing: Padding(
                                 padding: EdgeInsets.only(right: 10),
                                 child: Text("${doc.get("tarih")}"),
@@ -99,8 +103,12 @@ class _RequestsPageState extends State<Requests> {
                                                 TextStyle(color: Colors.green)),
                                         onPressed: () async {
                                           LoadingDialog();
-                                          istekKabul(doc, isError, senderId,
-                                              Static.user.id.toString());
+                                          istekKabul(
+                                              doc,
+                                              isError,
+                                              senderId,
+                                              Static.user.id.toString(),
+                                              doc.get("profilePhoto"));
                                         })
                                   ],
                                 ),
@@ -163,6 +171,7 @@ class _RequestsPageState extends State<Requests> {
     bool isError,
     String senderId,
     String userId,
+    String pp,
   ) async {
     List<dynamic> s;
     //düzelt
@@ -196,9 +205,12 @@ class _RequestsPageState extends State<Requests> {
                         "konser": doc.get("konser_ad"),
                         "üyeler":
                             FieldValue.arrayUnion([Static.user.id, senderId]),
+                        "profilePhoto": FieldValue.arrayUnion(
+                            [Static.user.profilePhoto, pp]),
                         "konser_id": doc.get("konser_id"),
                         "name": FieldValue.arrayUnion([
                           Static.user.name.toString() +
+                              " " +
                               Static.user.lastname.toString(),
                           doc.get("name")
                         ]),

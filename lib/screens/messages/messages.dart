@@ -56,21 +56,33 @@ class _MessagesPageState extends State<Messages> {
                   return ListView(
                     children: snapshot.data!.docs.map((doc) {
                       List<dynamic> lst1 = doc.get("üyeler");
-                      lst1.remove(userId);
+                      lst1.remove(Static.user.id);
                       String senderId = lst1.first;
+                      List<dynamic> lst2 = doc.get("name");
+                      lst2.remove(Static.user.name.toString() +
+                          " " +
+                          Static.user.lastname.toString());
+                      String senderName = lst2.first;
+                      List<dynamic> lst3 = doc.get("profilePhoto");
+                      String senderPP;
+                      if (lst3.remove(Static.user.profilePhoto)) {
+                        senderPP = lst3.first;
+                      } else {
+                        senderPP = "";
+                      }
 
                       return Card(
                         child: ListTile(
-                          leading: CircleAvatar(
-                            foregroundImage: AssetImage(
-                              "assets/images/pp.png",
-                            ),
-                          ),
-                          trailing: Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Text("1"),
-                          ),
+                          leading: senderPP == ""
+                              ? CircleAvatar(
+                                  foregroundImage:
+                                      AssetImage("assets/images/person.png"),
+                                )
+                              : CircleAvatar(
+                                  backgroundImage: NetworkImage(senderPP),
+                                ),
                           title: Text("${doc.get("konser")} "),
+                          subtitle: Text("${senderName} "),
                           onTap: () async {
                             await _instance
                                 .collection("users")

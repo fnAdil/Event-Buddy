@@ -114,16 +114,17 @@ class _RegisterState extends State<Register> {
                   "age": t5.text,
                   "email": t1.text,
                   "passcode": t2.text,
+                  "profilePhoto": ""
                 }).whenComplete(() => {
                           setState(() {
                             print("kullanıcı kaydedildi");
                             isLoading = false;
                             Navigator.pop(context);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => Home(_user)),
-                            // );
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                            );
                           })
                         })
               });

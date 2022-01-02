@@ -49,7 +49,8 @@ class _ChatsState extends State<Chats> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CircleAvatar(
-              foregroundImage: AssetImage("assets/images/pp.png"),
+              backgroundImage:
+                  NetworkImage(widget.sender.profilePhoto.toString()),
             ),
             SizedBox(
               width: 10,

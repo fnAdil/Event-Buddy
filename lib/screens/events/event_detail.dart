@@ -37,6 +37,7 @@ class _EventDetailState extends State<EventDetail> {
   @override
   Widget build(BuildContext context) {
     bool isError = false;
+    bool isMember = false;
     var selectedDate = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyy').format(selectedDate);
     bool isSelf =
@@ -74,9 +75,8 @@ class _EventDetailState extends State<EventDetail> {
                                 TextStyle(color: Colors.black, fontSize: 20)),
                         TextButton(
                             onPressed: () {
-                              setState(() {
-                                KonsereKatil();
-                              });
+                              KonsereKatil(isMember);
+                              setState(() {});
                             },
                             child: Text(
                               "Katıl",
@@ -130,6 +130,8 @@ class _EventDetailState extends State<EventDetail> {
 
                                 return !(isSelf)
                                     ? Container(
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 5),
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
@@ -138,11 +140,18 @@ class _EventDetailState extends State<EventDetail> {
                                           children: [
                                             ListTile(
                                               title: Text("${doc.get("name")}"),
-                                              leading: CircleAvatar(
-                                                foregroundImage: AssetImage(
-                                                  "assets/images/pp.png",
-                                                ),
-                                              ),
+                                              leading:
+                                                  doc.get("profilePhoto") == ""
+                                                      ? CircleAvatar(
+                                                          foregroundImage:
+                                                              AssetImage(
+                                                                  "assets/images/person.png"),
+                                                        )
+                                                      : CircleAvatar(
+                                                          backgroundImage:
+                                                              NetworkImage(doc.get(
+                                                                  "profilePhoto")),
+                                                        ),
                                               trailing: Padding(
                                                 padding:
                                                     EdgeInsets.only(right: 10),
@@ -247,6 +256,7 @@ class _EventDetailState extends State<EventDetail> {
                     "sender_id": Static.user.id,
                     "tarih": formattedDate.replaceAll("-", "."),
                     "şehir": widget.concert.city,
+                    "profilePhoto": Static.user.profilePhoto
                   }).whenComplete(() => {
                             print(formattedDate),
                             Navigator.pop(context),
@@ -296,8 +306,7 @@ class _EventDetailState extends State<EventDetail> {
     );
   }
 
-  void KonsereKatil() async {
-    bool isMember = false;
+  void KonsereKatil(bool isMember) async {
     LoadingDialog();
     await _instance
         .collection("konserler")
@@ -306,31 +315,29 @@ class _EventDetailState extends State<EventDetail> {
         .get()
         .then((value) => {
               value.docs.forEach((element) {
-                //eğer kişiye istek göndermişsek hata verir
+                //eğer konsere katılmışsak hata verir
                 if (element.get("id") == Static.user.id) {
                   isMember = true;
                   Navigator.pop(context);
                   ErrorDialog("Zaten bu konsere katıldınız!");
-                } else {
-                  isMember = false;
                 }
               })
             })
-        .whenComplete(() => {
-              if (!isMember)
-                {
-                  _instance
-                      .collection("konserler")
-                      .doc(widget.concert.id)
-                      .collection("katılımcılar")
-                      .add({
-                    "id": Static.user.id,
-                    "name": (Static.user.name.toString() +
-                        " " +
-                        Static.user.lastname.toString())
-                  }),
-                  Navigator.pop(context)
-                }
-            });
+        .whenComplete(() async {
+      if (!isMember) {
+        await _instance
+            .collection("konserler")
+            .doc(widget.concert.id)
+            .collection("katılımcılar")
+            .add({
+          "id": Static.user.id,
+          "profilePhoto": Static.user.profilePhoto,
+          "name": (Static.user.name.toString() +
+              " " +
+              Static.user.lastname.toString())
+        });
+        Navigator.pop(context);
+      }
+    });
   }
 }

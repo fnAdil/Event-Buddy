@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\hp\\Desktop\\JUST DO IT\\kod denemeleri\\firebasedemo\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uz\\values-uz.xml",
+            "outputFile": "/Users/adilozdemir/Flutter Projects/firebasedemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-uz/values-uz.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hp\\.gradle\\caches\\transforms-2\\files-2.1\\de92e6f9aa35a7d84c3a89b7deebbf34\\jetified-play-services-basement-17.1.0\\res\\values-uz\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "208",
-                        "endOffsets": "455"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1260",
-                        "endColumns": "208",
-                        "endOffsets": "1464"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\hp\\.gradle\\caches\\transforms-2\\files-2.1\\023bdcc7ba160616cd37ccdb799eb0ee\\jetified-play-services-base-17.1.0\\res\\values-uz\\values.xml",
+                    "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/023bdcc7ba160616cd37ccdb799eb0ee/jetified-play-services-base-17.1.0/res/values-uz/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\hp\\.gradle\\caches\\transforms-2\\files-2.1\\d710d53eeee75f2a57d0213959f1b1f6\\core-1.6.0\\res\\values-uz\\values-uz.xml",
+                    "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/de92e6f9aa35a7d84c3a89b7deebbf34/jetified-play-services-basement-17.1.0/res/values-uz/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "208",
+                        "endOffsets": "455"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1260",
+                        "endColumns": "208",
+                        "endOffsets": "1464"
+                    }
+                },
+                {
+                    "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/d710d53eeee75f2a57d0213959f1b1f6/core-1.6.0/res/values-uz/values-uz.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

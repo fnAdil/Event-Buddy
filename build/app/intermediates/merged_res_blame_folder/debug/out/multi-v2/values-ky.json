@@ -1,10 +1,27 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\hp\\Desktop\\JUST DO IT\\kod denemeleri\\firebasedemo\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ky\\values-ky.xml",
+            "outputFile": "/Users/adilozdemir/Flutter Projects/firebasedemo/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ky/values-ky.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hp\\.gradle\\caches\\transforms-2\\files-2.1\\d710d53eeee75f2a57d0213959f1b1f6\\core-1.6.0\\res\\values-ky\\values-ky.xml",
+                    "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/de92e6f9aa35a7d84c3a89b7deebbf34/jetified-play-services-basement-17.1.0/res/values-ky/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "220",
+                        "endOffsets": "467"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1250",
+                        "endColumns": "220",
+                        "endOffsets": "1466"
+                    }
+                },
+                {
+                    "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/d710d53eeee75f2a57d0213959f1b1f6/core-1.6.0/res/values-ky/values-ky.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\hp\\.gradle\\caches\\transforms-2\\files-2.1\\023bdcc7ba160616cd37ccdb799eb0ee\\jetified-play-services-base-17.1.0\\res\\values-ky\\values.xml",
+                    "source": "/Users/adilozdemir/.gradle/caches/transforms-2/files-2.1/023bdcc7ba160616cd37ccdb799eb0ee/jetified-play-services-base-17.1.0/res/values-ky/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -35,23 +52,6 @@
                         "startOffsets": "105,213,394,525,634,838,967,1112,1471,1699,1808,1989,2121,2317,2514,2608,2698",
                         "endColumns": "107,180,130,108,203,128,144,137,227,108,180,131,195,196,93,89,106",
                         "endOffsets": "208,389,520,629,833,962,1107,1245,1694,1803,1984,2116,2312,2509,2603,2693,2800"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\hp\\.gradle\\caches\\transforms-2\\files-2.1\\de92e6f9aa35a7d84c3a89b7deebbf34\\jetified-play-services-basement-17.1.0\\res\\values-ky\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "220",
-                        "endOffsets": "467"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1250",
-                        "endColumns": "220",
-                        "endOffsets": "1466"
                     }
                 }
             ]

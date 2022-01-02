@@ -27,7 +27,7 @@ class _ProfilePageState extends State<Profile> {
   final _userInstance = FirebaseAuth.instance;
   final picker = ImagePicker();
   late File _imageFile;
-  String url = "";
+
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -41,7 +41,7 @@ class _ProfilePageState extends State<Profile> {
         .FirebaseStorage.instance
         .ref()
         .child("${Static.user.id}")
-        .child('$fileName');
+        .child('profilePhoto');
     firebase_storage.UploadTask uploadTask =
         firebaseStorageRef.putFile(_imageFile);
     firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
@@ -52,6 +52,7 @@ class _ProfilePageState extends State<Profile> {
             .collection("users")
             .doc(Static.user.id)
             .update({"profilePhoto": value});
+
         print("Completed: $value");
       },
     );
@@ -92,10 +93,6 @@ class _ProfilePageState extends State<Profile> {
                         shape: BoxShape.circle, color: Colors.white),
                     child: GestureDetector(
                       onTap: () async {
-                        if (_imageFile != null) {
-                          deleteImage(context);
-                        }
-
                         await pickImage()
                             .then((value) => null)
                             .whenComplete(() async {
@@ -104,11 +101,16 @@ class _ProfilePageState extends State<Profile> {
 
                         setState(() {});
                       },
-                      child: Static.user.profilePhoto == null
-                          ? Image(image: AssetImage("assets/images/pp.png"))
-                          : CircleAvatar(
-                              backgroundImage: NetworkImage(url),
+                      child: Static.user.profilePhoto == ""
+                          ? CircleAvatar(
                               radius: 100,
+                              foregroundImage:
+                                  AssetImage("assets/images/person.png"),
+                            )
+                          : CircleAvatar(
+                              radius: 100,
+                              backgroundImage: NetworkImage(
+                                  Static.user.profilePhoto.toString()),
                             ),
                     ),
                   ),
