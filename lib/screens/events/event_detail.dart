@@ -71,6 +71,7 @@ class _EventDetailState extends State<EventDetail> {
                 // ignore: curly_braces_in_flow_control_structures
                 return ListView(
                   children: snapshot.data!.docs.map((doc) {
+                    // doc.get("ref");
                     print(doc.get("id") + "----.");
                     //eğer katılımcılar arasındakişinin kendisi varsa listelenmez
 
@@ -86,7 +87,7 @@ class _EventDetailState extends State<EventDetail> {
                             child: Column(
                               children: [
                                 ListTile(
-                                  title: Text("${doc.get("name")} "),
+                                  title: Text("${doc.get("name")}"),
                                   leading: CircleAvatar(
                                     foregroundImage: AssetImage(
                                       "assets/images/pp.png",

@@ -71,7 +71,7 @@ class _EventSearchState extends State<EventSearch> {
                           ),
                           trailing: Padding(
                             padding: EdgeInsets.only(right: 10),
-                            child: Text("date"),
+                            child: Text("${widget.date.toString()}"),
                           ),
                           subtitle: Text("${doc.get("şehir")}"),
                           title: Text("${doc.get("konser_adı")} "),
@@ -80,7 +80,7 @@ class _EventSearchState extends State<EventSearch> {
                                 doc.id,
                                 doc.get("konser_adı"),
                                 doc.get("şehir"),
-                                doc.get("tarih"));
+                                doc.get("tarih").toString());
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
