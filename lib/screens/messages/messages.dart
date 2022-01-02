@@ -78,11 +78,13 @@ class _MessagesPageState extends State<Messages> {
                                 .get()
                                 .then((value) => {
                                       sender = Users(
-                                          senderId,
-                                          value.data()!["email"],
-                                          value.data()!["name"],
-                                          value.data()!["lastname"],
-                                          value.data()!["age"])
+                                        senderId,
+                                        value.data()!["email"],
+                                        value.data()!["name"],
+                                        value.data()!["lastname"],
+                                        value.data()!["age"],
+                                        value.data()!["profilePhoto"],
+                                      )
                                     })
                                 .whenComplete(() => {
                                       Navigator.push(

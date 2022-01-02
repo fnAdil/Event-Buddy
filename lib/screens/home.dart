@@ -76,6 +76,8 @@ class _HomeState extends State<Home> {
               print(Static.user.email.toString()),
               Static.user.age = value.data()!["age"],
               print(Static.user.age.toString()),
+              Static.user.profilePhoto = value.data()!["profilePhoto"],
+              print(Static.user.profilePhoto.toString()),
             })
         .whenComplete(() => {});
     setState(() {

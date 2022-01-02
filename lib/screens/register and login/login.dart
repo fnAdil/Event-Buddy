@@ -154,14 +154,16 @@ class _LoginState extends State<Login> {
                   Static.user.name = value.data()!["name"],
                   Static.user.lastname = value.data()!["lastname"],
                   Static.user.email = value.data()!["email"],
-                  Static.user.age = value.data()!["age"]
+                  Static.user.age = value.data()!["age"],
+                  Static.user.profilePhoto = value.data()!["profilePhoto"]
                 })
             .whenComplete(() => {
                   print(Static.user.name.toString() +
                       Static.user.lastname.toString() +
                       Static.user.email.toString() +
                       Static.user.age.toString() +
-                      Static.user.id.toString()),
+                      Static.user.id.toString() +
+                      Static.user.profilePhoto.toString()),
                   isLoading = false,
                   Navigator.pop(context),
                   Navigator.pop(context),

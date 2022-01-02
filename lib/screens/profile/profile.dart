@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebasedemo/components/bacground.dart';
@@ -6,6 +9,7 @@ import 'package:firebasedemo/screens/register%20and%20login/login.dart';
 import 'package:firebasedemo/screens/profile/requests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../static.dart';
 
@@ -21,6 +25,55 @@ class Profile extends StatefulWidget {
 class _ProfilePageState extends State<Profile> {
   final _instance = FirebaseFirestore.instance;
   final _userInstance = FirebaseAuth.instance;
+  final picker = ImagePicker();
+  late File _imageFile;
+  String url = "";
+  Future pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _imageFile = File(pickedFile!.path);
+    });
+  }
+
+  Future uploadImage(BuildContext context) async {
+    String fileName = _imageFile.path;
+    firebase_storage.Reference firebaseStorageRef = firebase_storage
+        .FirebaseStorage.instance
+        .ref()
+        .child("${Static.user.id}")
+        .child('$fileName');
+    firebase_storage.UploadTask uploadTask =
+        firebaseStorageRef.putFile(_imageFile);
+    firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
+    taskSnapshot.ref.getDownloadURL().then(
+      (value) {
+        Static.user.profilePhoto = value;
+        _instance
+            .collection("users")
+            .doc(Static.user.id)
+            .update({"profilePhoto": value});
+        print("Completed: $value");
+      },
+    );
+  }
+
+  Future deleteImage(BuildContext context) async {
+    String fileName = _imageFile.path;
+    firebase_storage.Reference firebaseStorageRef = firebase_storage
+        .FirebaseStorage.instance
+        .ref()
+        .child("${Static.user.id}");
+    await firebaseStorageRef.delete();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp().whenComplete(() {
+      print("completed");
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +90,26 @@ class _ProfilePageState extends State<Profile> {
                     padding: const EdgeInsets.all(5),
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: Colors.white),
-                    child: const CircleAvatar(
-                      radius: 100,
-                      foregroundImage: AssetImage(
-                        "assets/images/pp.png",
-                      ),
+                    child: GestureDetector(
+                      onTap: () async {
+                        if (_imageFile != null) {
+                          deleteImage(context);
+                        }
+
+                        await pickImage()
+                            .then((value) => null)
+                            .whenComplete(() async {
+                          await uploadImage(context);
+                        });
+
+                        setState(() {});
+                      },
+                      child: Static.user.profilePhoto == null
+                          ? Image(image: AssetImage("assets/images/pp.png"))
+                          : CircleAvatar(
+                              backgroundImage: NetworkImage(url),
+                              radius: 100,
+                            ),
                     ),
                   ),
                 )),

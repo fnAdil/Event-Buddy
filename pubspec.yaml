@@ -39,6 +39,8 @@ dependencies:
   firebase_auth: ^3.3.4
   table_calendar: ^3.0.3
   intl: ^0.17.0
+  image_picker: ^0.8.4+4
+  firebase_storage: ^10.2.4
 
 
 dev_dependencies:

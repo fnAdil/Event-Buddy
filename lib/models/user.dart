@@ -7,6 +7,7 @@ class Users {
   String? lastname;
   String? email;
   String? age;
-
-  Users(this.id, this.email, this.name, this.lastname, this.age);
+  String? profilePhoto;
+  Users(this.id, this.email, this.name, this.lastname, this.age,
+      this.profilePhoto);
 }

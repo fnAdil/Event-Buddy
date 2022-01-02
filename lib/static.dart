@@ -7,5 +7,6 @@ class Static {
     null,
     null,
     null,
+    null,
   );
 }
