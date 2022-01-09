@@ -55,66 +55,69 @@ class _RequestsPageState extends State<Requests> {
                       bool _customTileExpanded = false;
                       String senderId = doc.get("sender_id");
 
-                      return Container(
-                        decoration: BoxDecoration(color: Colors.white),
-                        child: Column(
-                          children: [
-                            ExpansionTile(
-                              leading: doc.get("profilePhoto") == ""
-                                  ? CircleAvatar(
-                                      foregroundImage: AssetImage(
-                                          "assets/images/person.png"),
-                                    )
-                                  : CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(doc.get("profilePhoto")),
-                                    ),
-                              trailing: Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Text("${doc.get("tarih")}"),
-                              ),
-                              title: Text("${doc.get("konser_ad")}"),
-                              subtitle: Text("${doc.get("name")}"),
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    TextButton(
-                                        child: Text(
-                                          "Reddet",
-                                          style: TextStyle(color: Colors.red),
-                                        ),
-                                        onPressed: () async {
-                                          LoadingDialog();
-                                          await _instance
-                                              .collection(
-                                                  "users/${Static.user.id}/istekler")
-                                              .doc(doc.id)
-                                              .delete()
-                                              .whenComplete(() =>
-                                                  {Navigator.pop(context)});
-
-                                          setState(() {});
-                                        }),
-                                    TextButton(
-                                        child: Text("Kabul et",
-                                            style:
-                                                TextStyle(color: Colors.green)),
-                                        onPressed: () async {
-                                          LoadingDialog();
-                                          istekKabul(
-                                              doc,
-                                              isError,
-                                              senderId,
-                                              Static.user.id.toString(),
-                                              doc.get("profilePhoto"));
-                                        })
-                                  ],
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          child: Column(
+                            children: [
+                              ExpansionTile(
+                                leading: doc.get("profilePhoto") == ""
+                                    ? CircleAvatar(
+                                        foregroundImage: AssetImage(
+                                            "assets/images/person.png"),
+                                      )
+                                    : CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            doc.get("profilePhoto")),
+                                      ),
+                                trailing: Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Text("${doc.get("tarih")}"),
                                 ),
-                              ],
-                            ),
-                          ],
+                                title: Text("${doc.get("konser_ad")}"),
+                                subtitle: Text("${doc.get("name")}"),
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                          child: Text(
+                                            "Reddet",
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                          onPressed: () async {
+                                            LoadingDialog();
+                                            await _instance
+                                                .collection(
+                                                    "users/${Static.user.id}/istekler")
+                                                .doc(doc.id)
+                                                .delete()
+                                                .whenComplete(() =>
+                                                    {Navigator.pop(context)});
+
+                                            setState(() {});
+                                          }),
+                                      TextButton(
+                                          child: Text("Kabul et",
+                                              style: TextStyle(
+                                                  color: Colors.green)),
+                                          onPressed: () async {
+                                            LoadingDialog();
+                                            istekKabul(
+                                                doc,
+                                                isError,
+                                                senderId,
+                                                Static.user.id.toString(),
+                                                doc.get("profilePhoto"));
+                                          })
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     }).toList(),

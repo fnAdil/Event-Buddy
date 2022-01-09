@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebasedemo/components/bacground.dart';
 import 'package:firebasedemo/components/input_field.dart';
 import 'package:firebasedemo/components/logo.dart';
 import 'package:firebasedemo/models/user.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebasedemo/static.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../home.dart';
 import 'login.dart';
@@ -26,6 +31,9 @@ class _RegisterState extends State<Register> {
   final _userInstance = FirebaseAuth.instance;
   late User _user;
   bool isLoading = false;
+  final picker = ImagePicker();
+  late File _imageFile;
+  String link = "";
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +52,17 @@ class _RegisterState extends State<Register> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    TextButton(
+                        onPressed: () async {
+                          await pickImage();
+                        },
+                        child: const Text(
+                          "Fotoğraf yükle",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        )),
                     InputField(
                       controller: t1,
                       hint: "Email",
@@ -77,6 +96,32 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  Future pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _imageFile = File(pickedFile!.path);
+    });
+  }
+
+  Future uploadImage(BuildContext context, String id) async {
+    String fileName = _imageFile.path;
+    firebase_storage.Reference firebaseStorageRef = firebase_storage
+        .FirebaseStorage.instance
+        .ref()
+        .child(id)
+        .child('profilePhoto');
+    firebase_storage.UploadTask uploadTask =
+        firebaseStorageRef.putFile(_imageFile);
+    firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
+    taskSnapshot.ref.getDownloadURL().then(
+      (value) {
+        _instance.collection("users").doc(id).update({"profilePhoto": value});
+        link = value;
+        print("Completed: $value");
+      },
+    );
+  }
+
   Future<String?> LoadingDialog() {
     return showDialog<String>(
       context: context,
@@ -104,30 +149,28 @@ class _RegisterState extends State<Register> {
     try {
       await _userInstance
           .createUserWithEmailAndPassword(email: t1.text, password: t2.text)
-          .then((value) => {
-                _instance
-                    .collection("users")
-                    .doc(value.user?.uid.toString())
-                    .set({
-                  "name": t3.text,
-                  "lastname": t4.text,
-                  "age": t5.text,
-                  "email": t1.text,
-                  "passcode": t2.text,
-                  "profilePhoto": ""
-                }).whenComplete(() => {
-                          setState(() {
-                            print("kullanıcı kaydedildi");
-                            isLoading = false;
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Login()),
-                            );
-                          })
-                        })
-              });
+          .then((value) async {
+        await uploadImage(context, value.user!.uid);
+        _instance.collection("users").doc(value.user?.uid.toString()).set({
+          "name": t3.text,
+          "lastname": t4.text,
+          "age": t5.text,
+          "email": t1.text,
+          "passcode": t2.text,
+          "profilePhoto": link
+        }).whenComplete(() => {
+              setState(() {
+                print("kullanıcı kaydedildi");
+                isLoading = false;
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
+              })
+            });
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         errorMessage = "Parola çok güçsüz, Lütfen tekrar deneyiniz.";
@@ -192,11 +235,28 @@ class _RegisterState extends State<Register> {
   GestureDetector RegisterButton() {
     return GestureDetector(
         onTap: () {
-          setState(() {
-            isLoading = true;
+          if (_imageFile.path == "") {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: Center(child: const Text('Fotoğraf Bulunamadı')),
+                content: Text(
+                    "Fotoğraf yüklemek zorunludur, Lütfen bir fotoğraf seçin."),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            setState(() {
+              isLoading = true;
 
-            register();
-          });
+              register();
+            });
+          }
         },
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
