@@ -1,4 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
+/*
+  Bu sınıf veritabanından Alınan kullanıcı bilgilerini tutan nesneler yaratmak için yazılmıştır.
+ */
 
 class Users {
   String? id;

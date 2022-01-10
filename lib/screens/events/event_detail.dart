@@ -1,13 +1,17 @@
-// ignore_for_file: prefer_const_constructors
+/*
+  Bu sayfa konsere dair detaylı bilginin yer aldığı yerdir.
+  Burada konerin adı, tarihi gibi bilgiler yer almakta ve konsere katılan kullanıcılar listelenmektedir.
+  Bu sayfadan seçilen etkinliğe katılım sağlayabilir ve katılan kullanıcılara istek atabilirsiniz.
 
+  Fakat kullanıcılar her konsere 1 kez katılabilir, tekrar katılmak isterse uyarı mesajı alırlar.
+  Aynı şekilde kullanıcılar her kişiye 1 kez istek atabilir, diğer kullanıcı zaten istek atmış ise istek atamaz
+  ve zaten eşleştiği bir kullanıcıya istek atamaz. Bu durumlarda gerekli uyarı mesajları alır.
+
+ */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebasedemo/components/bacground.dart';
 import 'package:firebasedemo/models/Concert.dart';
-import 'package:firebasedemo/screens/events/Events.dart';
 import 'package:firebasedemo/static.dart';
-import 'package:firebasedemo/static.dart';
-import 'package:firebasedemo/static.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -22,30 +26,23 @@ class EventDetail extends StatefulWidget {
 class _EventDetailState extends State<EventDetail> {
   final _instance = FirebaseFirestore.instance;
 
-  late CollectionReference _ref;
-
+//sayfanın başlangıcında konsere katılan kişilerin listesi veritabanından alınır.
+  @override
   void initState() {
-    _ref = _instance
-        .collection("konserler")
-        .doc(widget.concert.id)
-        .collection("katılımcılar");
-
     setState(() {});
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isError = false;
-    bool isMember = false;
-    var selectedDate = DateTime.now();
-    String formattedDate = DateFormat('dd-MM-yyy').format(selectedDate);
+    bool isError = false; //hata oluşursa kontrol etmek için
+    bool isMember =
+        false; //kullanıcının kendisinin katılımcılar arasında listelenmesini engeller
+    var selectedDate = DateTime.now(); //zaman bilgisi için
+    String formattedDate = DateFormat('dd-MM-yyy')
+        .format(selectedDate); //zaman bilgisi istenilen forma sokulur.
     bool isSelf =
         false; //katılımcılar listelenirken kullanıcının kendisinin listelenmesini engellemek için
-    bool isMatch =
-        false; //katılımcılar listelenirken kullanıcının zaten eşleştiği kişilerin listelenmesini engellemek için
-    bool isRequest =
-        false; //katılımcılar listelenirken kullanıcının istek listesindeki kişilerin listelenmesini engellemek için
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.concert.name),
@@ -53,7 +50,7 @@ class _EventDetailState extends State<EventDetail> {
       ),
       body: Stack(
         children: <Widget>[
-          Background(),
+          const Background(), //arkaplan fotoğrafı
           Column(
             children: [
               Expanded(
@@ -63,29 +60,29 @@ class _EventDetailState extends State<EventDetail> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          widget.concert.name,
-                          style: TextStyle(
+                          widget.concert.name, //konser adı
+                          style: const TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
-                        Text(widget.concert.city,
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 20)),
-                        Text(formattedDate,
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 20)),
+                        Text(widget.concert.city, //konserin şehri
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 20)),
+                        Text(formattedDate, //konserin tarihi
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 20)),
                         TextButton(
                             onPressed: () {
-                              KonsereKatil(isMember);
+                              konsereKatil(isMember); //konsere katılma butonu
                               setState(() {});
                             },
-                            child: Text(
+                            child: const Text(
                               "Katıl",
                               style:
                                   TextStyle(color: Colors.green, fontSize: 20),
                             ))
                       ],
                     ),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         gradient: LinearGradient(
                             colors: [Colors.deepPurple, Colors.white],
                             begin: Alignment.topCenter,
@@ -98,11 +95,12 @@ class _EventDetailState extends State<EventDetail> {
               Expanded(
                 flex: 3,
                 child: Container(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 20),
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
+                          //Konsere katılanlar veritabanından çekilip listelenir
                           child: StreamBuilder<QuerySnapshot>(
                         stream: _instance
                             .collection(
@@ -110,28 +108,25 @@ class _EventDetailState extends State<EventDetail> {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
+                            //eğer henüz veritabanına bağlanamamışsa yükleniyor işareti çıkar
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
-                          } else
-
-                            // ignore: curly_braces_in_flow_control_structures
+                          } else {
+                            //veri gelmiş ise listelenir
                             return ListView(
                               children: snapshot.data!.docs.map((doc) {
-                                // doc.get("ref");
                                 print(doc.get("id") + "----.");
-                                //eğer katılımcılar arasındakişinin kendisi varsa listelenmez
-
                                 if (doc.get("id") == Static.user.id) {
                                   isSelf = true;
                                 } else {
                                   isSelf = false;
                                 }
-
+                                //eğer katılımcılar arasındakişinin kendisi varsa listelenmez
                                 return !(isSelf)
                                     ? Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 5),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 5),
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
@@ -139,10 +134,12 @@ class _EventDetailState extends State<EventDetail> {
                                         child: Column(
                                           children: [
                                             ListTile(
-                                              title: Text("${doc.get("name")}"),
+                                              title: Text(
+                                                  "${doc.get("name")}"), //katılımcı ismi
+                                              //profil fotoğrafı
                                               leading:
                                                   doc.get("profilePhoto") == ""
-                                                      ? CircleAvatar(
+                                                      ? const CircleAvatar(
                                                           foregroundImage:
                                                               AssetImage(
                                                                   "assets/images/person.png"),
@@ -153,12 +150,13 @@ class _EventDetailState extends State<EventDetail> {
                                                                   "profilePhoto")),
                                                         ),
                                               trailing: Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 10),
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
                                                 child: TextButton(
-                                                  child: Text("İstek Gönder"),
+                                                  child: const Text(
+                                                      "İstek Gönder"), //istek butonu
                                                   onPressed: () async {
-                                                    LoadingDialog();
+                                                    loadingDialog(); //yükleniyor işareti
                                                     istek(doc, isError,
                                                         formattedDate);
                                                     setState(() {});
@@ -172,6 +170,7 @@ class _EventDetailState extends State<EventDetail> {
                                     : Container();
                               }).toList(),
                             );
+                          }
                         },
                       )),
                     ],
@@ -185,6 +184,7 @@ class _EventDetailState extends State<EventDetail> {
     );
   }
 
+//bu metod veritabanından kontrol işlemleri yapar eğer sorun yok ise mevcut kullanıcıyı istek gönderilen kişinin istekler listesine ekler
   Future istek(QueryDocumentSnapshot<Object?> doc, bool isError,
       String formattedDate) async {
     await _instance
@@ -199,7 +199,8 @@ class _EventDetailState extends State<EventDetail> {
                     element.get("sender_id") == Static.user.id) {
                   isError = true;
                   Navigator.pop(context);
-                  ErrorDialog("Bu kişiye daha önce istek gönderdiniz!");
+                  errorDialog(
+                      "Bu kişiye daha önce istek gönderdiniz!"); //hata mesajı
                 } else {}
               })
             })
@@ -216,13 +217,14 @@ class _EventDetailState extends State<EventDetail> {
                               element.get("sender_id") == doc.get("id")) {
                             isError = true;
                             Navigator.pop(context);
-                            ErrorDialog(
-                                "Bu kişi daha önce size istek göndermiş!");
+                            errorDialog(
+                                "Bu kişi daha önce size istek göndermiş!"); //hata mesajı
                           } else {}
                         })
                       })
             })
         .whenComplete(() async => {
+              //eğer kişi ile zaten eşleşmişsek(mesajlarda var ise)
               await _instance
                   .collection("mesajlar")
                   .where("üyeler", arrayContains: Static.user.id.toString())
@@ -236,11 +238,13 @@ class _EventDetailState extends State<EventDetail> {
                             print("bdolu------------------"),
                             isError = true,
                             Navigator.pop(context),
-                            ErrorDialog("Bu kişi ile zaten eşleştiniz!"),
+                            errorDialog(
+                                "Bu kişi ile zaten eşleştiniz!"), //hata mesajı
                           }
                       })
             })
         .whenComplete(() async => {
+              //hata yok ise istek atılan kişinin istekler listesine eklenir
               if (!isError)
                 {
                   await _instance
@@ -265,7 +269,8 @@ class _EventDetailState extends State<EventDetail> {
             });
   }
 
-  Future<String?> LoadingDialog() {
+//yükleniyor ekranı
+  Future<String?> loadingDialog() {
     return showDialog<String>(
       context: context,
       barrierDismissible: false,
@@ -277,20 +282,24 @@ class _EventDetailState extends State<EventDetail> {
           height: 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [CircularProgressIndicator(), Text("Yükleniyor...")],
+            children: const [
+              CircularProgressIndicator(),
+              Text("Yükleniyor...")
+            ],
           ),
         ),
       ),
     );
   }
 
-  Future<String?> ErrorDialog(String errorMessage) {
+  //hata mesaj ekranı
+  Future<String?> errorDialog(String errorMessage) {
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Center(child: Text("Hata")),
         content: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             height: 80,
             child: Center(
                 child: Text(
@@ -299,15 +308,18 @@ class _EventDetailState extends State<EventDetail> {
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'OK'),
-            child: Center(child: const Text('OK')),
+            child: const Center(child: Text('OK')),
           ),
         ],
       ),
     );
   }
 
-  void KonsereKatil(bool isMember) async {
-    LoadingDialog();
+  //konsere katıl butonu
+  //mevcut konserin katılımcılar listesinde mevcut kullanıcıyı arar eğer yok ise ekler;
+  //var ise uygun hata mesajını gösterir
+  void konsereKatil(bool isMember) async {
+    loadingDialog();
     await _instance
         .collection("konserler")
         .doc(widget.concert.id)
@@ -319,11 +331,12 @@ class _EventDetailState extends State<EventDetail> {
                 if (element.get("id") == Static.user.id) {
                   isMember = true;
                   Navigator.pop(context);
-                  ErrorDialog("Zaten bu konsere katıldınız!");
+                  errorDialog("Zaten bu konsere katıldınız!");
                 }
               })
             })
         .whenComplete(() async {
+      //eğer katılımcı değilsek ekler.
       if (!isMember) {
         await _instance
             .collection("konserler")

@@ -1,21 +1,17 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebasedemo/components/bacground.dart';
 import 'package:firebasedemo/components/input_field.dart';
 import 'package:firebasedemo/components/logo.dart';
-import 'package:firebasedemo/models/user.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebasedemo/static.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../home.dart';
 import 'login.dart';
 
 class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
+
   @override
   State<Register> createState() => _RegisterState();
 }
@@ -84,8 +80,8 @@ class _RegisterState extends State<Register> {
                       controller: t5,
                       hint: "Yaş",
                     ),
-                    RegisterButton(),
-                    LoginTextButton(context)
+                    registerButton(),
+                    loginTextButton(context)
                   ],
                 ),
               ),
@@ -122,7 +118,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Future<String?> LoadingDialog() {
+  Future<String?> loadingDialog() {
     return showDialog<String>(
       context: context,
       barrierDismissible: false,
@@ -134,7 +130,10 @@ class _RegisterState extends State<Register> {
           height: 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [CircularProgressIndicator(), Text("Yükleniyor...")],
+            children: const [
+              CircularProgressIndicator(),
+              Text("Yükleniyor...")
+            ],
           ),
         ),
       ),
@@ -143,7 +142,7 @@ class _RegisterState extends State<Register> {
 
   register() async {
     if (isLoading) {
-      LoadingDialog();
+      loadingDialog();
     }
     String errorMessage = "Bir hata Oluştu!";
     try {
@@ -183,7 +182,7 @@ class _RegisterState extends State<Register> {
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: Center(child: const Text('Kullanıcı Bulunamadı')),
+          title: const Center(child: Text('Kullanıcı Bulunamadı')),
           content: Text(errorMessage),
           actions: <Widget>[
             TextButton(
@@ -217,7 +216,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  TextButton LoginTextButton(BuildContext context) {
+  TextButton loginTextButton(BuildContext context) {
     return TextButton(
         onPressed: () {
           setState(() {
@@ -226,21 +225,21 @@ class _RegisterState extends State<Register> {
                 context, MaterialPageRoute(builder: (context) => Login()));
           });
         },
-        child: Text(
+        child: const Text(
           "Giriş Yap",
           style: TextStyle(color: Colors.white, fontSize: 15),
         ));
   }
 
-  GestureDetector RegisterButton() {
+  GestureDetector registerButton() {
     return GestureDetector(
         onTap: () {
           if (_imageFile.path == "") {
             showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                title: Center(child: const Text('Fotoğraf Bulunamadı')),
-                content: Text(
+                title: const Center(child: Text('Fotoğraf Bulunamadı')),
+                content: const Text(
                     "Fotoğraf yüklemek zorunludur, Lütfen bir fotoğraf seçin."),
                 actions: <Widget>[
                   TextButton(
@@ -261,7 +260,8 @@ class _RegisterState extends State<Register> {
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
             decoration: BoxDecoration(
-                gradient: LinearGradient(begin: Alignment.centerLeft, colors: [
+                gradient:
+                    const LinearGradient(begin: Alignment.centerLeft, colors: [
                   Colors.blue,
                   Colors.purple,
                 ]),

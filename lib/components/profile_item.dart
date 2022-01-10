@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileItem extends StatelessWidget {
@@ -40,12 +39,12 @@ class ProfileItem extends StatelessWidget {
                       Text(
                         title + ": ",
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                       Text(
                         info,
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ],
                   ),

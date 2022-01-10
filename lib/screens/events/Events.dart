@@ -1,7 +1,11 @@
+/*
+  Bu ekran tarih ve şehir seçilen ekrandır.
+  seçilen değerler bir sonraki ekrana aktarılır ve uygun etkinliklerin listelenmesini sağlar.
+*/
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebasedemo/components/bacground.dart';
 import 'package:firebasedemo/screens/register%20and%20login/login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -17,7 +21,7 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
-  FirebaseAuth _userInstance = FirebaseAuth.instance;
+  final FirebaseAuth _userInstance = FirebaseAuth.instance;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -30,7 +34,7 @@ class _EventsState extends State<Events> {
     return Stack(children: <Widget>[
       const Background(),
       Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 50),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 50),
         child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -39,7 +43,7 @@ class _EventsState extends State<Events> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Cities(),
+                cities(),
                 EventSearchButton("Etkinlik Ara", _selectedDay),
               ],
             ),
@@ -49,7 +53,7 @@ class _EventsState extends State<Events> {
     ]);
   }
 
-  Container Cities() {
+  Container cities() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 1),
       decoration: BoxDecoration(

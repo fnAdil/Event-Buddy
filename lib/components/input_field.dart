@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class InputField extends StatelessWidget {
   const InputField({
@@ -18,7 +15,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(3),
+      margin: const EdgeInsets.all(3),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(40.0),
@@ -27,7 +24,7 @@ class InputField extends StatelessWidget {
         padding: const EdgeInsets.all(2.0),
         child: TextField(
           obscureText: isObscure == null ? false : true,
-          inputFormatters: [
+          inputFormatters: const [
             // FilteringTextInputFormatter(RegExp(r"^[a-zA-Z0-9ğüşöçİĞÜŞÖÇ]+$"),
             //     allow: true)
           ],

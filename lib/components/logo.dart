@@ -12,8 +12,8 @@ class Logo extends StatelessWidget {
     return Expanded(
       flex: flex,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-        child: Image(
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+        child: const Image(
           image: AssetImage("assets/images/b.png"),
         ),
       ),

@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebasedemo/components/input_field.dart';
 import 'package:firebasedemo/components/bacground.dart';
 import 'package:firebasedemo/components/logo.dart';
-import 'package:firebasedemo/models/user.dart';
 import 'package:firebasedemo/screens/register%20and%20login/register.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../static.dart';
 import '../home.dart';
 
 class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
   @override
   State<Login> createState() => _LoginState();
 }
@@ -31,7 +31,7 @@ class _LoginState extends State<Login> {
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Stack(children: <Widget>[
           const Background(),
@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
                         isObscure: true,
                       ),
                       const Spacer(),
-                      LoginButton(),
+                      loginButton(),
                       RegisterTextButton(context),
                       const Spacer(),
                       const Spacer()
@@ -71,7 +71,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Future<String?> LoadingDialog() {
+  Future<String?> loadingDialog() {
     return showDialog<String>(
       context: context,
       barrierDismissible: false,
@@ -105,7 +105,7 @@ class _LoginState extends State<Login> {
         ));
   }
 
-  GestureDetector LoginButton() {
+  GestureDetector loginButton() {
     return GestureDetector(
         onTap: () {
           isLoading = true;
@@ -133,7 +133,7 @@ class _LoginState extends State<Login> {
 
   login() async {
     if (isLoading) {
-      LoadingDialog();
+      loadingDialog();
     }
 
     try {
@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
           .signInWithEmailAndPassword(email: t1.text, password: t2.text)
           .whenComplete(() => {});
 
-      if (userCredential != null) {
+      if (userCredential.user != null) {
         print("kullanıcı--------------------");
         Static.user.id = userCredential.user!.uid.toString();
         await _instance
