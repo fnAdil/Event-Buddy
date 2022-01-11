@@ -227,7 +227,8 @@ class _EventDetailState extends State<EventDetail> {
               //eğer kişi ile zaten eşleşmişsek(mesajlarda var ise)
               await _instance
                   .collection("mesajlar")
-                  .where("üyeler", arrayContains: Static.user.id.toString())
+                  .where("üyeler",
+                      arrayContains: {Static.user.id.toString(), doc.get("id")})
                   .where("konser_id", isEqualTo: widget.concert.id)
                   .get()
                   .then((value) => {
@@ -236,6 +237,7 @@ class _EventDetailState extends State<EventDetail> {
                         else
                           {
                             print("bdolu------------------"),
+
                             isError = true,
                             Navigator.pop(context),
                             errorDialog(
