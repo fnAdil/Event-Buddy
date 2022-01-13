@@ -268,7 +268,7 @@ class _RegisterState extends State<Register> {
                 borderRadius: BorderRadius.circular(25),
                 color: Colors.purple[400]),
             child: const Text(
-              "Register",
+              "Kaydol",
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
