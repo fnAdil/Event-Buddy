@@ -50,8 +50,11 @@ class _EventSearchState extends State<EventSearch> {
               //konserlere erişim
               stream: _instance
                   .collection('konserler')
-                  .where("tarih", isEqualTo: widget.date)
                   .where("şehir", isEqualTo: widget.city)
+                  .where(
+                    "tarih",
+                    isEqualTo: widget.date,
+                  )
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -68,7 +71,7 @@ class _EventSearchState extends State<EventSearch> {
                       child: ListTile(
                         leading: CircleAvatar(
                           child: Text(
-                              "${doc.get("konser_adı")[0].toString().toUpperCase()} "),
+                              "${doc.get("konser_adı")[0].toString().toUpperCase()}"),
                         ),
                         trailing: Padding(
                           padding: const EdgeInsets.only(right: 10),

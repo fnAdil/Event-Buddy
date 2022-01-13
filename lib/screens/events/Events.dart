@@ -74,6 +74,7 @@ class _EventsState extends State<Events> {
         onChanged: (value) {
           setState(() {
             _selectedCity = value.toString();
+            print("------city:" + _selectedCity);
           });
         },
       ),
