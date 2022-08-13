@@ -1,8 +1,14 @@
-# firebasedemo
+# Event Buddy
 
-A new Flutter project.
+Event Buddy app is the perfect solution for people who don't want to go to concerts, theaters and similar events alone and want to meet new people.
 
-## Getting Started
+Users can register as attendees for events and wait to receive requests from other users, or they can list event attendees and send requests to them.
+
+If users accept the requests, the messaging option will open and they will be able to communicate.
+
+Here are the images and features of the application!
+
+
 
 
 <img src="assets/ss/login.png" alt="Login Page" width="400"/> 
